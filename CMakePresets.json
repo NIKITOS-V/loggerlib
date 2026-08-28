@@ -1,0 +1,195 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 24,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_CXX_STANDARD": "17",
+                "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        },
+        {
+            "name": "dev",
+            "displayName": "Development (with tests)",
+            "description": "Build with unit tests enabled for development",
+            "inherits": "default",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "BUILD_TESTS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "environment": {
+                "CL": "/utf-8"
+            }
+        },
+        {
+            "name": "dev-release",
+            "displayName": "Development (release with tests)",
+            "description": "Build with unit tests enabled in Release mode",
+            "inherits": "default",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "BUILD_TESTS": "ON",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            },
+            "environment": {
+                "CL": "/utf-8"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release (no tests)",
+            "description": "Build without tests for distribution",
+            "inherits": "default",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "BUILD_TESTS": "OFF",
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "environment": {
+                "CL": "/utf-8"
+            }
+        },
+        {
+            "name": "release-with-install",
+            "displayName": "Release with install prefix",
+            "description": "Build without tests and set install prefix",
+            "inherits": "release",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install"
+            }
+        },
+        {
+            "name": "debug-shared",
+            "displayName": "Debug shared library",
+            "description": "Build shared library with debug info",
+            "inherits": "dev",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": "ON"
+            }
+        },
+        {
+            "name": "release-shared",
+            "displayName": "Release shared library",
+            "description": "Build shared library in release mode",
+            "inherits": "release",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": "ON"
+            }
+        },
+        {
+            "name": "sanitizers",
+            "displayName": "Development with sanitizers (MSVC only)",
+            "description": "Build with tests and address sanitizer (MSVC /fsanitize=address)",
+            "inherits": "dev",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "/fsanitize=address",
+                "CMAKE_EXE_LINKER_FLAGS": "/fsanitize=address"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "dev",
+            "displayName": "Build (dev)",
+            "configurePreset": "dev"
+        },
+        {
+            "name": "dev-release",
+            "displayName": "Build (dev-release)",
+            "configurePreset": "dev-release"
+        },
+        {
+            "name": "release",
+            "displayName": "Build (release)",
+            "configurePreset": "release"
+        },
+        {
+            "name": "release-with-install",
+            "displayName": "Build and install",
+            "configurePreset": "release-with-install"
+        },
+        {
+            "name": "debug-shared",
+            "displayName": "Build (debug-shared)",
+            "configurePreset": "debug-shared"
+        },
+        {
+            "name": "release-shared",
+            "displayName": "Build (release-shared)",
+            "configurePreset": "release-shared"
+        },
+        {
+            "name": "sanitizers",
+            "displayName": "Build with sanitizers",
+            "configurePreset": "sanitizers"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "dev",
+            "displayName": "Test (dev)",
+            "configurePreset": "dev",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "default"
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "dev-release",
+            "displayName": "Test (dev-release)",
+            "configurePreset": "dev-release",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "debug-shared",
+            "displayName": "Test (debug-shared)",
+            "configurePreset": "debug-shared",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "sanitizers",
+            "displayName": "Test with sanitizers",
+            "configurePreset": "sanitizers",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "verbose"
+            }
+        }
+    ],
+    "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+            "hostOS": [
+                "Windows"
+            ]
+        }
+    }
+}

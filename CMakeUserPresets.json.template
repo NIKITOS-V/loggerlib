@@ -1,0 +1,79 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "dev",
+            "displayName": "Development (with tests) [LOCAL]",
+            "description": "Build with unit tests enabled for development (local customizations)",
+            "inherits": "dev",
+            "binaryDir": "${sourceDir}/build/dev-local",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install-dev",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_C_COMPILER": "cl.exe"
+            },
+            "environment": {
+                "CL": "/utf-8 /W4 /MP /EHsc"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release (no tests) [LOCAL]",
+            "description": "Build without tests for distribution (local customizations)",
+            "inherits": "release",
+            "binaryDir": "${sourceDir}/build/release-local",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install-release"
+            }
+        },
+        {
+            "name": "my-custom",
+            "displayName": "My Custom Configuration",
+            "description": "Fully custom build for special needs",
+            "inherits": "default",
+            "binaryDir": "${sourceDir}/build/my-custom",
+            "cacheVariables": {
+                "BUILD_TESTS": "ON",
+                "BUILD_SHARED_LIBS": "OFF",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install-my-custom",
+                "CMAKE_CXX_STANDARD": "20"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "dev",
+            "displayName": "Build (dev) [LOCAL]",
+            "configurePreset": "dev"
+        },
+        {
+            "name": "release",
+            "displayName": "Build (release) [LOCAL]",
+            "configurePreset": "release"
+        },
+        {
+            "name": "my-custom",
+            "displayName": "Build (my-custom)",
+            "configurePreset": "my-custom"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "dev",
+            "displayName": "Test (dev) [LOCAL]",
+            "configurePreset": "dev",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "my-custom",
+            "displayName": "Test (my-custom)",
+            "configurePreset": "my-custom",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}
