@@ -22,15 +22,24 @@
 	#endif
 #endif
 
-/* ----- Default instance name ---- */
+/* ----- Default instance name ----- */
 
 #ifndef LOGGER_INSTANCE
 	#define LOGGER_INSTANCE logger
 #endif
 
+/* ----- Instance type ----- */
+
+#define LOGGER_LINK .
+#define LOGGER_PTR ->
+
+#ifndef LOGGER_INSTANCE_TYPE
+	#define LOGGER_INSTANCE_TYPE LOGGER_LINK
+#endif
+
 /* ----- Public functions for user ----- */
 
-// Имя текущего файла без пути до него
+// Имя текущего файла без пути до этого файла
 #define FILE_NAME loggerlib::extractFileName(std::string_view(__FILE__))
 
 #if defined(LOGGING_MODE) && (LOGGING_MODE == LOGGING_DEBUG)
@@ -44,7 +53,7 @@
 		)
 
 	#define LOG_DEBUG(msg)\
-		LOGGER_INSTANCE.debug(\
+		LOGGER_INSTANCE LOGGER_INSTANCE_TYPE debug(\
 			msg,\
 			FILE_NAME,\
 			std::string_view(__func__),\
@@ -52,7 +61,7 @@
 		)
 
 	#define LOG_INFO(msg)\
-		LOGGER_INSTANCE.info(\
+		LOGGER_INSTANCE LOGGER_INSTANCE_TYPE info(\
 			msg,\
 			FILE_NAME,\
 			std::string_view(__func__),\
@@ -60,7 +69,7 @@
 		)
 
 	#define LOG_EXCEPTION(msg)\
-		LOGGER_INSTANCE.exception(\
+		LOGGER_INSTANCE LOGGER_INSTANCE_TYPE exception(\
 			msg,\
 			FILE_NAME,\
 			std::string_view(__func__),\
@@ -68,7 +77,7 @@
 		)
 
 	#define LOG_WARNING(msg)\
-		LOGGER_INSTANCE.warning(\
+		LOGGER_INSTANCE LOGGER_INSTANCE_TYPE warning(\
 			msg,\
 			FILE_NAME,\
 			std::string_view(__func__),\
@@ -76,7 +85,7 @@
 		)
 
 	#define LOG_FATAL(msg)\
-		LOGGER_INSTANCE.fatal(\
+		LOGGER_INSTANCE LOGGER_INSTANCE_TYPE fatal(\
 			msg,\
 			FILE_NAME,\
 			std::string_view(__func__),\
@@ -87,11 +96,12 @@
 
 #if defined(LOGGING_MODE) && (LOGGING_MODE == LOGGING_RELEASE)
 
-	#define LOG_DEBUG(msg) NULL
-	#define LOG_INFO(msg) LOGGER_INSTANCE.info(msg)
-	#define LOG_EXCEPTION(msg) LOGGER_INSTANCE.exception(msg)
-	#define LOG_WARNING(msg) LOGGER_INSTANCE.warning(msg)
-	#define LOG_FATAL(msg) LOGGER_INSTANCE.fatal(msg)
+	#define FUNC_DEBUG() do {} while(0)
+	#define LOG_DEBUG(msg) do {} while(0)
+	#define LOG_INFO(msg) LOGGER_INSTANCE LOGGER_INSTANCE_TYPE info(msg)
+	#define LOG_EXCEPTION(msg) LOGGER_INSTANCE LOGGER_INSTANCE_TYPE exception(msg)
+	#define LOG_WARNING(msg) LOGGER_INSTANCE LOGGER_INSTANCE_TYPE warning(msg)
+	#define LOG_FATAL(msg) LOGGER_INSTANCE LOGGER_INSTANCE_TYPE fatal(msg)
 
 #endif
 

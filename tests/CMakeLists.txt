@@ -23,7 +23,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(LoggerLibTests PRIVATE LOGGING_MODE=0)
     message(STATUS "Building in DEBUG mode - full logging enabled")
 
-elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+else()
     target_compile_definitions(LoggerLibTests PRIVATE LOGGING_MODE=1)
     message(STATUS "Building with release with debug info - INFO logging")
 

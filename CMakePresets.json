@@ -96,16 +96,6 @@
             "cacheVariables": {
                 "BUILD_SHARED_LIBS": "ON"
             }
-        },
-        {
-            "name": "sanitizers",
-            "displayName": "Development with sanitizers (MSVC only)",
-            "description": "Build with tests and address sanitizer (MSVC /fsanitize=address)",
-            "inherits": "dev",
-            "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "/fsanitize=address",
-                "CMAKE_EXE_LINKER_FLAGS": "/fsanitize=address"
-            }
         }
     ],
     "buildPresets": [
@@ -138,11 +128,6 @@
             "name": "release-shared",
             "displayName": "Build (release-shared)",
             "configurePreset": "release-shared"
-        },
-        {
-            "name": "sanitizers",
-            "displayName": "Build with sanitizers",
-            "configurePreset": "sanitizers"
         }
     ],
     "testPresets": [
@@ -173,15 +158,6 @@
             "configurePreset": "debug-shared",
             "output": {
                 "outputOnFailure": true
-            }
-        },
-        {
-            "name": "sanitizers",
-            "displayName": "Test with sanitizers",
-            "configurePreset": "sanitizers",
-            "output": {
-                "outputOnFailure": true,
-                "verbosity": "verbose"
             }
         }
     ],
