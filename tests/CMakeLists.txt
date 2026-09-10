@@ -1,19 +1,3 @@
-#[[ В случае подключений "googletest"
-include(FetchContent)
-
-# Отключаем установку GTest (не нужно для тестов)
-set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG v1.14.0
-)
-
-FetchContent_MakeAvailable(googletest)
-]]
-
 add_executable(LoggerLibTests
     test_main.cpp
     test_loggerlib.cpp
@@ -32,12 +16,4 @@ endif()
 target_link_libraries(LoggerLibTests
     PRIVATE
         LoggerLib::LoggerLib
-        #GTest::gtest
-        #GTest::gtest_main
 )
-
-#[[ В случае подключений "googletest"
-# Автоматическое обнаружение тестов для интеграции с CTest
-include(GoogleTest)
-#gtest_discover_tests(LoggerLibTests)
-]]
